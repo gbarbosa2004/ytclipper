@@ -1,0 +1,13 @@
+{
+  "name": "ytclipper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small local YouTube clipper that saves MP4 clips to your Desktop.",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=22" }
+}

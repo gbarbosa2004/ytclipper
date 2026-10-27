@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Save YouTube clips to Downloads as MP4, or export a batch together in one ZIP.">
+  <title>Clipper</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="header">
+      <h1 class="brand">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m9 9 11 11M9 15 20 4M14 14l6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="6" cy="6" r="3" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.8"/></svg></span>
+        <span>clipper<span class="brand-dot">.</span></span>
+      </h1>
+    </header>
+
+    <main>
+      <form class="link-form" id="link-form">
+        <label class="sr-only" for="video-url">YouTube URL</label>
+        <input id="video-url" type="url" placeholder="YouTube URL" autocomplete="off" spellcheck="false" required aria-describedby="load-error">
+        <button class="button dark" id="load-button" type="submit"><span>Load video</span></button>
+      </form>
+      <p class="form-error" id="load-error" role="alert" hidden></p>
+
+      <div class="workspace">
+        <section class="video-card" aria-label="Video preview">
+          <div class="preview" id="preview">
+            <div class="empty-preview" id="empty-preview">
+              <p>Load a video to preview it.</p>
+            </div>
+            <img id="thumbnail" alt="Video thumbnail" hidden>
+            <button id="play-button" class="play-button" type="button" aria-label="Preview clip" title="Preview clip" hidden><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="m10 6 13 8-13 8V6Z" fill="currentColor"/></svg></button>
+            <div id="player-slot"></div>
+          </div>
+          <div class="video-info" id="video-info" hidden>
+            <div class="video-copy"><h2 id="video-title"></h2><p id="video-meta"></p></div>
+            <span class="source-duration" id="source-duration" hidden></span>
+          </div>
+          <div class="timeline-area" id="timeline-area" hidden>
+            <div class="timeline-heading"><span>Selection</span><span id="selection-label">—</span></div>
+            <div class="timeline" id="timeline">
+              <div class="selection-track" id="selection-track" aria-hidden="true"></div>
+              <input type="range" id="start-range" min="0" max="100" step="0.1" value="0" aria-label="Clip start time" disabled>
+              <input type="range" id="end-range" min="0" max="100" step="0.1" value="100" aria-label="Clip end time" disabled>
+            </div>
+            <div class="timeline-labels"><span>0:00</span><span id="timeline-end">—</span></div>
+          </div>
+        </section>
+
+        <section class="export-card" aria-labelledby="clip-heading">
+          <h2 id="clip-heading">Clips</h2>
+          <form id="export-form">
+            <fieldset id="clip-controls" disabled>
+              <div class="time-inputs">
+                <div><label for="start-time">Start</label><div class="time-field"><input id="start-time" type="text" inputmode="text" value="00:00" autocomplete="off" spellcheck="false" aria-describedby="time-help time-error"></div></div>
+                <div><label for="end-time">End</label><div class="time-field"><input id="end-time" type="text" inputmode="text" value="00:30" autocomplete="off" spellcheck="false" aria-describedby="time-help time-error"></div></div>
+              </div>
+              <div class="time-help" id="time-help">mm:ss or hh:mm:ss <span id="clip-duration">30 s</span></div>
+              <p class="form-error" id="time-error" role="alert" hidden></p>
+            </fieldset>
+
+            <button class="button add-button" id="add-clip-button" type="button" disabled><span id="add-clip-label">Add to batch</span></button>
+            <div class="batch-section" id="batch-section" hidden>
+              <div class="batch-heading"><span id="batch-count">Batch (0)</span><button class="clear-button" id="clear-batch" type="button">Clear</button></div>
+              <ol class="batch-list" id="batch-list" aria-label="Clips in your batch"></ol>
+            </div>
+
+            <div class="export-settings">
+              <div><span>Format</span><strong id="format-setting">MP4</strong></div>
+              <div><span>Resolution</span><strong id="quality-setting">Up to 1080p</strong></div>
+              <div><span>Save to</span><strong>Downloads</strong></div>
+            </div>
+
+            <button class="button export-button" id="export-button" type="submit" disabled><span>Export MP4</span></button>
+            <button class="button whole-button" id="whole-video-button" type="button" disabled><span>Download full video</span></button>
+          </form>
+
+          <div class="export-status" id="export-status" hidden>
+            <div class="status-heading"><strong id="status-message" role="status" aria-live="polite">Loading video…</strong><span id="progress-percent"></span></div>
+            <div class="progress-track" id="progress-track" role="progressbar" aria-label="Export progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
+            <p class="file-details" id="file-details" hidden></p>
+            <ul class="export-results" id="export-results" aria-label="Export results" hidden></ul>
+            <button class="text-button" id="cancel-button" type="button">Cancel export</button>
+            <button class="button finder-button" id="finder-button" type="button" hidden>Show in Finder</button>
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

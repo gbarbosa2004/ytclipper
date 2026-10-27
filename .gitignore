@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+.tools/
+.qa/
+*.log
+test-output/
+.vercel
+.env*
